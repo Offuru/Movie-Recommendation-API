@@ -27,7 +27,8 @@ namespace API.Controllers
         [Route("{userId}/get-details")]
         public IActionResult GetUserDetails([FromRoute] int userId)
         {
-            return Ok();
+            var result = UsersService.GetUserDetailsById(userId);
+            return Ok(result);
         }
     }
 }

@@ -17,5 +17,15 @@ namespace Database.Repositories
             dbContext.Add(user);
             SaveChanges();
         }
+
+        public User GetUserById(int id)
+        {
+            var result = dbContext.Users
+                .Where(u => u.Id == id)
+                .Where(u => u.DateDeleted == null)
+                .FirstOrDefault();
+
+            return result;
+        }
     }
 }

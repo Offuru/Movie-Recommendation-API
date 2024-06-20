@@ -1,4 +1,6 @@
-﻿using Database.Dtos.Request;
+﻿using Core.Mapping;
+using Database.Dtos.Request;
+using Database.Dtos.Response;
 using Database.Entities;
 using Database.Repositories;
 using System;
@@ -21,21 +23,16 @@ namespace Core.Services
 
         public void Register(RegisterUserRequest payload)
         {
-
-            var user = new User();
-
-            //TODO salt and hash password + role
-            user.PasswordSalt = "";
-            user.Role = "User";
-            user.Name = payload.Name;
-            user.Email = payload.Email;
-            user.Password = payload.Password;
-            user.FavoriteGenres = payload.FavoriteGenres;
-            user.Reviews = new List<Review>();
-            user.DateCreated = DateTime.UtcNow;
-            user.DateUpdated = DateTime.UtcNow;
-
+            var user = payload.ToEntity();
             UsersRepository.AddUser(user);
+        }
+
+        public GetUserDetailsResponse GetUserDetailsById(int userId)
+        {
+            var user = UsersRepository.GetUserById(userId);
+            var result = user.ToUserDto();
+
+            return result;
         }
     }
 }
