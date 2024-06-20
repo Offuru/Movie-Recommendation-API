@@ -7,8 +7,8 @@
         public string Password { get; set; }
         public string PasswordSalt { get; set; }
         public string Email { get; set; }
-        public List<string> FavoritesGenres { get; set; }
+        public List<string> FavoriteGenres { get; set; }
         public List<Review> Reviews { get; set; }
-        public List<string> Role { get; set; }
+        public string Role { get; set; }
     }
 }

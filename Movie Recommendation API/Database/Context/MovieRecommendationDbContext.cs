@@ -28,6 +28,9 @@ namespace Database.Context
             modelBuilder.Entity<User>()
                 .Property(u => u.Email)
                 .HasMaxLength(50);
+            modelBuilder.Entity<Movie>()
+                .Property(u => u.Id)
+                .ValueGeneratedOnAdd();
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

@@ -3,7 +3,7 @@ using Core.Services;
 using Database.Dtos.Request;
 
 
-namespace Movie_Recommendation_API.Controllers
+namespace API.Controllers
 {
     [Route("api/users")]
     public class UsersController : BaseController
@@ -17,8 +17,9 @@ namespace Movie_Recommendation_API.Controllers
 
         [HttpPost]
         [Route("add")]
-        public IActionResult Add([FromBody] AddUserRequest payload)
+        public IActionResult Register([FromBody] RegisterUserRequest payload)
         {
+            UsersService.Register(payload);
             return Ok("User has been succesfully created");
         }
 

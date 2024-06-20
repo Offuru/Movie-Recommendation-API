@@ -1,6 +1,31 @@
-var builder = WebApplication.CreateBuilder(args);
-var app = builder.Build();
+using API;
+public class Program
+{
+    private static void Main(string[] args)
+    {
+        var builder = WebApplication.CreateBuilder(args);
 
-app.MapGet("/", () => "Hello World!");
+        builder.Services.AddControllers();
+        builder.Services.AddSwaggerGen();
+        builder.Services.AddServices();
+        builder.Services.AddRepositories();
 
-app.Run();
+
+
+        var app = builder.Build();
+
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI();
+        }
+        app.UseHttpsRedirection();
+
+        app.UseAuthorization();
+
+        app.MapControllers();
+
+        app.Run();
+    }
+}
+
