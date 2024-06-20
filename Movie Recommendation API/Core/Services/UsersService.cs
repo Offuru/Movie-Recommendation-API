@@ -34,5 +34,19 @@ namespace Core.Services
 
             return result;
         }
+
+        public void EditUser(int userId, EditUserRequest payload)
+        {
+            var user = UsersRepository.GetUserById(userId);
+
+            UsersRepository.EditUser(user, payload);
+        }
+
+        public void DeleteUser(int userId)
+        {
+            var user = UsersRepository.GetUserById(userId);
+
+            UsersRepository.DeleteUser(user);
+        }
     }
 }
