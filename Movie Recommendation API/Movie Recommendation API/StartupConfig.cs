@@ -11,6 +11,7 @@ namespace API
         public static void AddServices(this IServiceCollection services)
         {
             services.AddScoped<UsersService>();
+            services.AddScoped<MovieService>();
         }
 
         public static void AddRepositories(this IServiceCollection services)
@@ -19,6 +20,7 @@ namespace API
             services.AddScoped<DbContext, MovieRecommendationDbContext>();
 
             services.AddScoped<UsersRepository>();
+            services.AddScoped<MovieRepository>();
         }
     }
 }
