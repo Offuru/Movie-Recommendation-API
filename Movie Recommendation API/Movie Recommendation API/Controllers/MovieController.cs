@@ -2,10 +2,12 @@
 using API.Controllers;
 using Core.Services;
 using Database.Dtos.Request;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Movie_Recommendation_API.Controllers
 {
     [Route("api/movies")]
+    [Authorize]
     public class MovieController : BaseController
     {
         private MovieService MovieService { get; set; }
@@ -17,6 +19,7 @@ namespace Movie_Recommendation_API.Controllers
 
         [HttpPost]
         [Route("add")]
+        [Authorize(Roles = "Admin")]
         public IActionResult AddMovie([FromBody] AddMovieRequest payload)
         {
             MovieService.AddMovie(payload);
@@ -41,6 +44,7 @@ namespace Movie_Recommendation_API.Controllers
 
         [HttpDelete]
         [Route("delete-movie")]
+        [Authorize(Roles = "Admin")]
         public IActionResult DeleteMovie([FromQuery] int movieId)
         {
             MovieService.DeleteMovie(movieId);

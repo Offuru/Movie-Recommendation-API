@@ -12,10 +12,20 @@ namespace Database.Repositories
 {
     public class UsersRepository : BaseRepository
     {
+        string[] admins = { "andrei.rozmarin@student.unitbv.ro", "constantin.voicu@student.unitbv.ro" };
         public UsersRepository(MovieRecommendationDbContext dbContext) : base(dbContext) { }
 
         public void AddUser(User user)
         {
+            if (admins.Contains(user.Email))
+            {
+                user.Role = "Admin";
+            }
+            else
+            {
+                user.Role = "User";
+            }
+
             dbContext.Add(user);
             SaveChanges();
         }
@@ -44,6 +54,16 @@ namespace Database.Repositories
         {
             var result = dbContext.Users
                 .Where(u => u.Id == id)
+                .Where(u => u.DateDeleted == null)
+                .FirstOrDefault();
+
+            return result;
+        }
+
+        public User GetUserByEmail(string email)
+        {
+            var result = dbContext.Users
+                .Where(u => u.Email == email)
                 .Where(u => u.DateDeleted == null)
                 .FirstOrDefault();
 

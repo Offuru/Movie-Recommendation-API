@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Core.Services;
 using Database.Dtos.Request;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace API.Controllers
@@ -21,6 +22,15 @@ namespace API.Controllers
         {
             UsersService.Register(payload);
             return Ok("User has been succesfully created");
+        }
+
+        [HttpPost("/login")]
+        [AllowAnonymous]
+        public IActionResult Login(LoginRequest payload)
+        {
+            var jwtToken = UsersService.Login(payload);
+
+            return Ok(new {token = jwtToken});
         }
 
         [HttpGet]
