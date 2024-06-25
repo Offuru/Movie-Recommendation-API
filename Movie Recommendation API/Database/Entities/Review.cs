@@ -9,6 +9,5 @@
         public Movie Movie { get; set; }
         public string Comment { get; set; }
         public int Rating { get; set; }
-        public DateTime Time { get; set; }
     }
 }

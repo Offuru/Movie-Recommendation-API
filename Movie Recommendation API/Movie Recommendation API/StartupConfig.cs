@@ -12,6 +12,7 @@ namespace API
         {
             services.AddScoped<UsersService>();
             services.AddScoped<MovieService>();
+            services.AddScoped<ReviewService>();
         }
 
         public static void AddRepositories(this IServiceCollection services)
@@ -21,6 +22,7 @@ namespace API
 
             services.AddScoped<UsersRepository>();
             services.AddScoped<MovieRepository>();
+            services.AddScoped<ReviewsRepository>();
         }
     }
 }
