@@ -23,6 +23,22 @@ namespace Movie_Recommendation_API.Controllers
             return Ok("Movie has been added succesfully");
         }
 
+        [HttpGet]
+        [Route("{movieId}/get-details")]
+        public IActionResult GetMovieDetails([FromRoute] int movieId)
+        {
+            var result = MovieService.GetMovieDetailsById(movieId);
+            return Ok(result);
+        }
+
+        [HttpPut]
+        [Route("{movieId}/edit")]
+        public IActionResult EditMovieDetails([FromRoute] int movieId, [FromBody] EditMovieRequest payload)
+        {
+            MovieService.EditMovie(movieId, payload);
+            return Ok("Movie has been succesfully edited");
+        }
+
         [HttpDelete]
         [Route("delete-movie")]
         public IActionResult DeleteMovie([FromQuery] int movieId)

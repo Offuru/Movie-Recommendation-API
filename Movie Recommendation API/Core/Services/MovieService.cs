@@ -1,5 +1,6 @@
 ﻿using Core.Mapping;
 using Database.Dtos.Request;
+using Database.Dtos.Response;
 using Database.Repositories;
 
 namespace Core.Services
@@ -8,7 +9,7 @@ namespace Core.Services
     {
         MovieRepository MovieRepository { get; set; }
 
-        public MovieService(MovieRepository movieRepository) 
+        public MovieService(MovieRepository movieRepository)
         {
             MovieRepository = movieRepository;
         }
@@ -18,12 +19,27 @@ namespace Core.Services
             var movie = payload.ToEntity();
             MovieRepository.AddMovie(movie);
         }
-        
+
         public void DeleteMovie(int movieId)
         {
             var movie = MovieRepository.GetMovieById(movieId);
 
             MovieRepository.DeleteMovie(movie);
+        }
+
+        public GetMovieDetailsResponse GetMovieDetailsById(int movieId)
+        {
+            var movie = MovieRepository.GetMovieById(movieId);
+            var result = movie.ToMovieDto();
+
+            return result;
+        }
+
+        public void EditMovie(int movieId, EditMovieRequest payload)
+        {
+            var movie = MovieRepository.GetMovieById(movieId);
+
+            MovieRepository.EditMovie(movie, payload);
         }
     }
 }

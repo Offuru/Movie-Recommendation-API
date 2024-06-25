@@ -1,5 +1,7 @@
 ﻿using Database.Dtos.Request;
+using Database.Dtos.Response;
 using Database.Entities;
+using System.Dynamic;
 using System.Runtime.CompilerServices;
 
 namespace Core.Mapping
@@ -26,6 +28,26 @@ namespace Core.Mapping
             movie.DateUpdated = DateTime.UtcNow;
 
             return movie;
+        }
+
+        public static GetMovieDetailsResponse ToMovieDto(this Movie entity)
+        {
+            if (entity == null)
+            {
+                return null;
+            }
+
+            var result = new GetMovieDetailsResponse();
+
+            result.Name = entity.Name;
+            result.Duration = entity.Duration.ToString();
+            result.Genres = entity.Genres;
+            result.Rating = entity.Rating;  
+            result.UserRating = entity.UserRating;
+            result.CriticRating = entity.CriticRating;
+            result.ReviewsIds = entity.Reviews?.Select(r => r.Id).ToList() ?? new List<int>();
+
+            return result;
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using Database.Context;
+using Database.Dtos.Request;
 using Database.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Database.Repositories
 {
@@ -27,6 +29,20 @@ namespace Database.Repositories
                 .FirstOrDefault();
 
             return result;
+        }
+
+        public void EditMovie(Movie movie, EditMovieRequest payload)
+        {
+            movie.Name = payload.Name;
+            movie.Duration = TimeSpan.Parse(payload.Duration);
+            movie.Genres = payload.Genres;
+
+            if (dbContext.Entry(movie).State == EntityState.Modified)
+            {
+                movie.DateUpdated = DateTime.UtcNow;
+            }
+
+            SaveChanges();
         }
     }
 }
