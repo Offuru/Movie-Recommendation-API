@@ -1,6 +1,7 @@
 ﻿using Core.Mapping;
 using Database.Dtos.Request;
 using Database.Dtos.Response;
+using Database.Entities;
 using Database.Repositories;
 
 namespace Core.Services
@@ -24,6 +25,9 @@ namespace Core.Services
 
             review.User = UsersRepository.GetUserById(review.UserId);
             review.Movie = MovieRepository.GetMovieById(review.MovieId);
+            review.Movie.Reviews.Add(review);
+
+            UpdateMovieRating(review.Movie);
 
             ReviewsRepository.AddReview(review);
         }
@@ -47,7 +51,20 @@ namespace Core.Services
         {
             var review = ReviewsRepository.GetReviewById(reviewId);
 
+            review.User = UsersRepository.GetUserById(review.UserId);
+            review.Movie = MovieRepository.GetMovieById(review.MovieId);
+            UpdateMovieRating(review.Movie);
+
             ReviewsRepository.EditReview(review, payload);
+        }
+
+        private void UpdateMovieRating(Movie movie)
+        {
+            movie.UserRating = movie.Reviews.Where(r => r.User.Role == "User").Sum(r => r.Rating);
+
+            movie.CriticRating = movie.Reviews.Where(r => r.User.Role == "Admin").Sum(r => r.Rating);
+
+            movie.Rating = (movie.UserRating + movie.CriticRating) / 2;
         }
     }
 }
