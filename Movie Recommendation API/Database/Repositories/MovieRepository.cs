@@ -35,6 +35,9 @@ namespace Database.Repositories
                 throw new ResourceMissingException($"Movie with id {id} does not exist");
             }
 
+            if (result.Reviews == null)
+                result.Reviews = new List<Review>();
+
             return result;
         }
 
