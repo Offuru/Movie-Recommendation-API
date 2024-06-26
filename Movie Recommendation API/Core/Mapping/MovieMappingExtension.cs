@@ -30,6 +30,7 @@ namespace Core.Mapping
             return movie;
         }
 
+
         public static GetMovieDetailsResponse ToMovieDto(this Movie entity)
         {
             if (entity == null)
@@ -46,6 +47,13 @@ namespace Core.Mapping
             result.UserRating = entity.UserRating;
             result.CriticRating = entity.CriticRating;
             result.ReviewsIds = entity.Reviews?.Select(r => r.Id).ToList() ?? new List<int>();
+
+            return result;
+        }
+
+        public static List<GetMovieDetailsResponse> ToMoviesDto(this List<Movie> movies)
+        {
+            var result = movies.Select(m => m.ToMovieDto()).ToList();
 
             return result;
         }

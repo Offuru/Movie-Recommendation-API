@@ -83,7 +83,7 @@ namespace Core.Services
         public List<Movie> GetMovieRecommendationsForUser(int userId)
         {
             var user = UsersRepository.GetUserById(userId);
-            List<Movie> movies = MovieRepository.GetAllMovies().Where(m => m.Genres.Any(g => user.FavoriteGenres.Contains(g))).ToList();
+            List<Movie> movies = MovieRepository.GetAllMovies(new GetMoviesRequest()).Where(m => m.Genres.Any(g => user.FavoriteGenres.Contains(g))).ToList();
 
             return movies;
         }

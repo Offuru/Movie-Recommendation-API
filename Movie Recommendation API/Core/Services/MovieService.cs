@@ -45,5 +45,17 @@ namespace Core.Services
 
             MovieRepository.EditMovie(movie, payload);
         }
+
+        public GetMoviesResponse GetMovies(GetMoviesRequest payload)
+        {
+            var movies = MovieRepository.GetAllMovies(payload);
+
+            var result = new GetMoviesResponse();
+
+            result.Movies = movies.ToMoviesDto();
+            result.Count = MovieRepository.CountMovies(payload);
+
+            return result;
+        }
     }
 }

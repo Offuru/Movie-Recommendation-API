@@ -1,6 +1,7 @@
 ﻿using Database.Context;
 using Database.Dtos.Request;
 using Database.Entities;
+using Database.QueryExtensions;
 using Infrastructure.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
@@ -37,11 +38,32 @@ namespace Database.Repositories
             return result;
         }
 
-        public List<Movie> GetAllMovies()
+        public List<Movie> GetAllMovies(GetMoviesRequest payload)
         {
-            var result = dbContext.Movies.Where(m => m.DateDeleted == null).ToList();
+            var results = GetMoviesQuery(payload)
+                .Sort(payload.SortingCriterion)
+                .AsNoTracking()
+                .ToList();
+                
 
-            return result;
+            return results;
+        }
+
+        public int CountMovies(GetMoviesRequest payload)
+        {
+            var count = GetMoviesQuery(payload).Count();
+
+            return count;
+        }
+
+        private IQueryable<Movie> GetMoviesQuery(GetMoviesRequest payload)
+        {
+            var query = dbContext.Movies
+                .Where(m => m.DateDeleted == null)
+                .WhereName(payload)
+                .WhereRating(payload);
+
+            return query;
         }
 
         public void EditMovie(Movie movie, EditMovieRequest payload)

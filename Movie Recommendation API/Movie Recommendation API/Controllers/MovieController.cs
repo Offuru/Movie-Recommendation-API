@@ -34,6 +34,14 @@ namespace Movie_Recommendation_API.Controllers
             return Ok(result);
         }
 
+        [HttpGet]
+        [Route("/get-movies")]
+        public IActionResult GetMovies([FromQuery]GetMoviesRequest payload)
+        {
+            var result = MovieService.GetMovies(payload);
+            return Ok(result);
+        }
+
         [HttpPut]
         [Route("{movieId}/edit")]
         public IActionResult EditMovieDetails([FromRoute] int movieId, [FromBody] EditMovieRequest payload)
