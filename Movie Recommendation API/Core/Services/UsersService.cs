@@ -15,10 +15,12 @@ namespace Core.Services
     {
         public UsersRepository UsersRepository { get; set; }
         public AuthService AuthService { get; set; }
+        public MovieRepository MovieRepository { get; set; }
 
-        public UsersService(AuthService authService, UsersRepository usersRepository) 
+        public UsersService(AuthService authService, UsersRepository usersRepository, MovieRepository movieRepository) 
         {
             UsersRepository = usersRepository;
+            MovieRepository = movieRepository;
             AuthService = authService;
         }
 
@@ -35,6 +37,7 @@ namespace Core.Services
             var salt = AuthService.GenerateSalt();
             user.Password = AuthService.HashPassword(user.Password, salt);
             user.PasswordSalt = Convert.ToBase64String(salt);
+            user.FavoriteGenres = user.FavoriteGenres.Select(g => g.ToLower()).ToList();
 
             UsersRepository.AddUser(user);
         }
@@ -65,6 +68,7 @@ namespace Core.Services
         public void EditUser(int userId, EditUserRequest payload)
         {
             var user = UsersRepository.GetUserById(userId);
+            user.FavoriteGenres = user.FavoriteGenres.Select(g => g.ToLower()).ToList();
 
             UsersRepository.EditUser(user, payload);
         }
@@ -74,6 +78,14 @@ namespace Core.Services
             var user = UsersRepository.GetUserById(userId);
 
             UsersRepository.DeleteUser(user);
+        }
+
+        public List<Movie> GetMovieRecommendationsForUser(int userId)
+        {
+            var user = UsersRepository.GetUserById(userId);
+            List<Movie> movies = MovieRepository.GetAllMovies().Where(m => m.Genres.Any(g => user.FavoriteGenres.Contains(g))).ToList();
+
+            return movies;
         }
     }
 }

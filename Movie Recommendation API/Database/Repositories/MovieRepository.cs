@@ -37,6 +37,13 @@ namespace Database.Repositories
             return result;
         }
 
+        public List<Movie> GetAllMovies()
+        {
+            var result = dbContext.Movies.Where(m => m.DateDeleted == null).ToList();
+
+            return result;
+        }
+
         public void EditMovie(Movie movie, EditMovieRequest payload)
         {
             movie.Name = payload.Name;

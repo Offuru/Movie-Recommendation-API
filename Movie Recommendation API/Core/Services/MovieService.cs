@@ -18,6 +18,8 @@ namespace Core.Services
         public void AddMovie(AddMovieRequest payload)
         {
             var movie = payload.ToEntity();
+            movie.Genres = movie.Genres.Select(g => g.ToLower()).ToList();
+
             MovieRepository.AddMovie(movie);
         }
 
@@ -39,6 +41,7 @@ namespace Core.Services
         public void EditMovie(int movieId, EditMovieRequest payload)
         {
             var movie = MovieRepository.GetMovieById(movieId);
+            movie.Genres = movie.Genres.Select(g => g.ToLower()).ToList();
 
             MovieRepository.EditMovie(movie, payload);
         }

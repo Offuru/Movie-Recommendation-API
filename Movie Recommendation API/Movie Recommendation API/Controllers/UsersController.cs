@@ -41,6 +41,14 @@ namespace API.Controllers
             return Ok(result);
         }
 
+        [HttpGet]
+        [Route("{userId}/get-recommendations")]
+        public IActionResult GetMovieRecommendations([FromRoute] int userId)
+        {
+            var result = UsersService.GetMovieRecommendationsForUser(userId);
+            return Ok(result);
+        }
+
         [HttpPut]
         [Route("{userId}/edit")]
         public IActionResult EditUserDetails([FromRoute] int userId, [FromBody] EditUserRequest payload)
