@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using API;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Infrastructure.Middlewares;
 public class Program
 {
     private static void Main(string[] args)
@@ -37,15 +38,18 @@ public class Program
             };
         });
 
-        
+        builder.Services.AddAuthorization();
 
         var app = builder.Build();
+
+        app.UseMiddleware<ExceptionHandlingMiddleware>();
 
         if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();
             app.UseSwaggerUI();
         }
+
         app.UseHttpsRedirection();
 
         app.UseAuthentication();

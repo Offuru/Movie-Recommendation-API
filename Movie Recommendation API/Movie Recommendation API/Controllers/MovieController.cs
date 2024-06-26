@@ -3,11 +3,11 @@ using API.Controllers;
 using Core.Services;
 using Database.Dtos.Request;
 using Microsoft.AspNetCore.Authorization;
+using Infrastructure.Exceptions;
 
 namespace Movie_Recommendation_API.Controllers
 {
     [Route("api/movies")]
-    [Authorize]
     public class MovieController : BaseController
     {
         private MovieService MovieService { get; set; }

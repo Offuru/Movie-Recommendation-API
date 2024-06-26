@@ -1,6 +1,8 @@
 ﻿using Core.Services;
 using Database.Context;
 using Database.Repositories;
+using Infrastructure.Middlewares;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
@@ -29,7 +31,6 @@ namespace API
 
         public static void AddSwagger(this IServiceCollection services)
         {
-
             services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "Move Recommendation API", Version = "v1" });

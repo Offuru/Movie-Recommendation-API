@@ -2,6 +2,7 @@
 using Database.Dtos.Request;
 using Database.Dtos.Response;
 using Database.Repositories;
+using Infrastructure.Exceptions;
 
 namespace Core.Services
 {

@@ -1,6 +1,7 @@
 ﻿using Database.Context;
 using Database.Dtos.Request;
 using Database.Entities;
+using Infrastructure.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Database.Repositories
@@ -27,6 +28,11 @@ namespace Database.Repositories
                 .Where(m => m.Id == id)
                 .Where(m => m.DateDeleted == null)
                 .FirstOrDefault();
+
+            if (result == null)
+            {
+                throw new ResourceMissingException($"Movie with id {id} does not exist");
+            }
 
             return result;
         }
